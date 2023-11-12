@@ -1,23 +1,37 @@
 <?php 
 include("db.php"); //include tira el codi de l'arxiu que dius, aquest obre la db
 
+if(isset($_GET['request'])){ // si s'ha enviat el timetables:
+    $request = $_GET['request'];  //pot ser timetables, tasks, marks
+    if($request == 'timetables'){   //falta el limit
+        $consulta = "SELECT * FROM timetables";
+        if(isset($_GET['day'])){ //si es timetables hem de mirar si ha especificat day i hour
+            $day = $_GET['day'];
+            $consulta .= "WHERE day = '$day'";  //afegim a la consulta el filtre de dia
+            if(isset($_GET['hour'])){
+                $hour = $_GET['hour'];
+                $consulta .= "AND hour = '$hour'";
 
-if(isset($_GET['nom']) && isset($_GET['preu'])) { // si s'ha enviat el nom i preu del producte: 
-    #POST envia dades en el cos de la solicitud http. Per enviar dades ocultes 
-    #GET envia dades adjuntes al url com a paràmetres. http://localhost:8080/phpProject/back/index.php?nom=Joel 
-    $nom = $_GET['nom']; // obtener el nombre del producto
-    $preu = $_GET['preu']; // obtener el precio del producto
-    
-    // realizar la consulta para añadir el producto a la base de datos
-    $consulta = "INSERT INTO productes (nom, preu) VALUES ('$nom', '$preu')";  #com fer una consulta d'insertar dades en mysql
-    $resultado = mysqli_query($conn, $consulta);  #executa la consulta $consulta a la db $conn
+            }
+        }elseif(isset($_GET['limit'])){
+            $limit = $_GET['limit'];
+            $consulta .= "LIMIT $limit"; 
+        }
+    }
+    if($request == 'marks'){  //a fer
+        $consulta = "SELECT * FROM marks";
+    }
+    if($request == 'tasks'){  //a fer
+        $consulta = "SELECT * FROM tasks";
+    }
 
-    
-    // enviar el nom y el preu del producto afegit com a resposta json
-    $producto_array = array("nom" => $nom, "preu" => $preu);
-    echo json_encode($producto_array);
-} else {
-        // enviar un meissatge d'error com a resposta
-        echo "Error al añadir el producto";
+    $resultat = mysqli_query($conn, $consulta);  #executa la consulta $consulta a la db $conn
+
+    $resultat_array = array();
+    while($row = mysqli_fetch_assoc($resultat)){
+        $resultat_array[] = $row;
+    }
+    header('Content-Type: application/json');
+    echo json_encode($resultat_array);
 }
 ?>
