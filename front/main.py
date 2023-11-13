@@ -34,23 +34,19 @@ class Product:
         self.missatge.grid(row = 3, column= 0 , columnspan= 2, sticky= W + E)
         
     def seleccionar(self):  #consulta http
-        # obté el nom y el preu del producte a afegir
-        request = self.request.get().split("?")  #agafa el valor escrit al recuadre self.nom
         
-
-        # realizar la request per afegir el producte
-        url = "http://localhost:8080/CriticalDesignPBE/back/index.php?request={}&{}".format(request[0],request[1])  #url de l'arxiu index.php on s'envia la request per que el processi
-        
-        # #dades que envie, 
+        request = self.request.get().split("?")
+        if len(request) < 2:
+            request.append('')
+        url = "http://localhost:8080/CriticalDesignPBE/back/index.php?request={}&{}".format(request[0], request[1])  #url de l'arxiu index.php on s'envia la request per que el processi
         response = requests.get(url)  #fem una request post a l'url enviant les data
-    
+        print("STATUS: {}, url: {}".format(response.status_code, url))
         # verificar si la request és exitosa
         if response.status_code == 200: #200 exitosa, 404 url no trobat, 500 error en el php...
-            print("STATUS: {}".format(response.status_code))
+            print(response.text)
             producto = response.json()
-            for row in producto:
-                msg += row
-            self.missatge.config(test= msg, fg='red')
+            
+            print(producto)
         else:
             self.missatge.config(text='Error al añadir el producto: {}'.format(response.status_code), fg='red')
 
