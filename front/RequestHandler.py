@@ -3,15 +3,15 @@ import requests
 import json
 
 
-class RequestHandler():
+class RequestHandler(text):
   def __init__(self):
+      self.text = text;
       self.thread = threading.Thread(target=self.request)
       self.thread.start()
 
-
-  #url destinat a text que ha de tornar rq que pot ser una llista on string amb el nom de l'usuari ... 
-  def request(self, text):
-    url = "http://localhost:8080/CriticalDesignPBE" + text
+  def request(self):
+    request = self.text.get().split("?")
+    url = "http://localhost:8080/CriticalDesignPBE/back/index.php?request={}&{}".format(request[0], request[1])
     response = requests.get(url)
     rq = response.json()
     return (rq)
