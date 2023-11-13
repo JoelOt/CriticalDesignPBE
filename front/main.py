@@ -43,9 +43,7 @@ class Product:
         print("STATUS: {}, url: {}".format(response.status_code, url))
         # verificar si la request és exitosa
         if response.status_code == 200: #200 exitosa, 404 url no trobat, 500 error en el php...
-            print(response.text)
-            producto = response.json()
-            
+            producto = response.json()   
             print(producto)
         else:
             self.missatge.config(text='Error al añadir el producto: {}'.format(response.status_code), fg='red')
