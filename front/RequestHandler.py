@@ -23,17 +23,17 @@ class EntryHandler:
 
 
 class RequestHandler:
-  def __init__(self, text, callback):
-      self.text = text
-      self.callback = callback
-      self.thread = threading.Thread(target=self.request)
-      self.thread.start()
+    def __init__(self, text, callback):
+        self.text = text
+        self.callback = callback
+        self.thread = threading.Thread(target=self.request)
+        self.thread.start()
 
   def request(self):
-    request_data = self.text.get().split("?")
-    url = "http://localhost:8080/CriticalDesignPBE/back/index.php?request={}&{}".format(request_data[0], request_data[1])
-    response = requests.get(url)
-    result = response.json()
-    self.callback(result)
+      request_data = self.text.get().split("?")
+      url = "http://localhost:8080/CriticalDesignPBE/back/index.php?request={}&{}".format(request_data[0], request_data[1])
+      response = requests.get(url)
+      result = response.json()
+      self.callback(result)
 
 
