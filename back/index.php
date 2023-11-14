@@ -3,11 +3,11 @@ include("db.php"); //include tira el codi de l'arxiu que dius, aquest obre la db
 
 if(isset($_GET['request'])){ // si s'ha enviat el una request (timetables, marks o tasks):
  $request = $_GET['request'];
-    if($request == 'timetables'){   //falta el limit
+    if($request == 'timetables'){
         $consulta = "SELECT * FROM timetables";
-        if(isset($_GET['day'])){ //si es timetables hem de mirar si ha especificat day i hour
+        if(isset($_GET['day'])){
             $day = $_GET['day'];
-            $consulta .= " WHERE day = '$day'";  //afegim a la consulta el filtre de dia
+            $consulta .= " WHERE day = '$day'";
             if(isset($_GET['hour'])){
                 $hour = $_GET['hour'];
                 $consulta .= " AND hour = '$hour'";
@@ -16,16 +16,16 @@ if(isset($_GET['request'])){ // si s'ha enviat el una request (timetables, marks
             $limit = $_GET['limit'];
             $consulta .= " LIMIT $limit"; 
         }
-    }elseif($request == 'marks'){  //a fer
+    }elseif($request == 'marks'){
         $consulta = "SELECT * FROM marks";
         if(isset($_GET['subject'])){
             $subject = $_GET['subject'];
             $consulta .= " WHERE subject = '$subject'";
-        }if(isset($_GET['mark[lt]'])){
+        }if(isset($_GET['mark[lt]'])){  //mirar
             $mark = $_GET['mark[lt]'];
             $consulta .= " WHERE mark < '$mark'";
         }
-    }elseif($request == 'tasks'){  //a fer
+    }elseif($request == 'tasks'){
         $consulta = "SELECT * FROM tasks";
         if(isset($_GET['date'])){
             $date = $_GET['date'];
@@ -36,7 +36,7 @@ if(isset($_GET['request'])){ // si s'ha enviat el una request (timetables, marks
             $consulta .= " LIMIT $limit"; 
         }
     }
-    $resultat = mysqli_query($conn, $consulta);  #executa la consulta $consulta a la db $conn
+    $resultat = mysqli_query($conn, $consulta);  //executa la consulta $consulta a la db $conn
     $data= array();
     while($row = mysqli_fetch_assoc($resultat)){
         $data[] = $row;
