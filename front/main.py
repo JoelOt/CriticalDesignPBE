@@ -37,7 +37,17 @@ class CourseManager(Gtk.Grid):
         grid.set_column_homogeneous(True)
         self.attach(grid,0, 2, 2, 1)
 
-    
+    #def login (self):  #crec que ja ens convé que sigui bloquejant
+        #llegir uid
+            #url = "http://localhost:8080/CriticalDesignPBE/back/index.php?uid={}".format(uid)
+            #response = request.get(url)
+            #if response.status_code == 200:
+                #result = response.text()
+                #ensenyar al lcd en thread auxiliar
+
+    #def logout (self):
+        #self.login()
+
     def metodeThread(self, widjet):  #creem un thread per consultar el server de forma concurrent
         text = entry.get_text()
         thread1 = threading.Thread(target= self.consultarServer(text))  #li passem el que esta escrit
