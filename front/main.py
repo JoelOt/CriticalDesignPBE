@@ -1,5 +1,5 @@
 import sys
-
+import threading
 import gi
 
 gi.require_version("Gtk", "3.0")
@@ -8,15 +8,62 @@ from course_manager import CourseManager
 from entry_handler import EntryHandler
 
 
-def handle_request_result(result):
-    print(result)
+class CourseManager(Gtk.Box):
+    def __init__(self, entry_handler):
+        super().__init__()
 
+        self.set_orientation(Gtk.Orientation.VERTICAL)
+        self.set_spacing(150)
 
+        self.create_button()
+        self.create_entry(entry_handler)
 
+        self.show_all()
+
+    def create_button(self):
+        self.button = Gtk.Button(label = 'Logout')
+        self.button.set_size_request(60, 40)
+        self.button.set_alignment(1, 0)
+        self.pack_start(self.button, False, False, 10)
+        
+        
+    def create_entry(self):
+        self.entry = Gtk.Entry()
+        self.entry.set_placeholder_text("Enter your query:")
+        self.entry.connect("changed", metodeThread)
+        self.pack_start(entry, False, False, 0)
+
+    def metodeThread(self, widjet):  #creem un thread per consultar el server de forma concurrent
+        text = entry.get_text()
+        thread1 = threading.Thread(target= self.consultarServer(text))  #li passem el que esta escrit
+        thread1.start()
+        
+    def consultarServer(self,text):  #fa la consulta GET i rep com a resultat un json 
+        request_data = text.split("?")
+        tables = request_data[0]
+        variables = request_data[1]
+        textvar = ""
+        if (len(request_data) >= 2){
+            textvar = tables + "&" + variables
+        } else if (){
+            textvar = tables
+        }else{
+            return
+        }
+        url = "http://localhost:8080/CriticalDesignPBE/back/index.php?" + textvar
+        response = requests.get(url)
+        result = response.json()
+        
+        
+        GObject.idle_add(self.update_ui, result)  #modifica la interficie grafica
+        
+    def update_ui(self,result):
+        #posar les dades maques
+        #modifciar taula
+        
 if __name__ == '__main__':
     
     entry = Gtk.Entry()
-    entry_handler = EntryHandler(entry, handle_request_result)
     course_manager = CourseManager(entry_handler)
 
     win = Gtk.Window()
