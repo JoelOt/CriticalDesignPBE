@@ -53,8 +53,8 @@ class CourseManager(Gtk.Grid):
         thread1 = threading.Thread(target= self.consultarServer(text))  #li passem el que esta escrit
         thread1.start()
         
-    def consultarServer(self):  #fa la consulta GET i rep com a resultat un json 
-        request = self.request.get().split("?")
+    def consultarServer(self, text):  #fa la consulta GET i rep com a resultat un json 
+        request = text.split("?")
         if len(request) < 2:
             request.append('')
         url = "http://localhost:8080/CriticalDesignPBE/back/index.php?request={}&{}".format(request[0], request[1])  #url de l'arxiu index.php on s'envia la request per que el processi
