@@ -5,7 +5,7 @@ include("db.php"); //include tira el codi de l'arxiu que dius, aquest obre la db
 if(isset($_GET['uid'])){
     $uidGet = $_GET['uid'];
     $_SESSION['uid'] = $uidGet;  //session es per mantenir el valor en diferents requests
-    $consultaUid = SELECT nom FROM students WHERE uid = '$uidGet'";
+    $consultaUid = SELECT userName FROM students WHERE uid = '$uidGet'";
     $userName = mysqli_query($conn,         
 $consultaUid);        
     //echo "userName:" . $userName;  //enviem el userName per ensenyar-lo per LCD
