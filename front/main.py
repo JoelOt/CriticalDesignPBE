@@ -1,6 +1,8 @@
 import sys
 import threading
 import gi
+import json
+import requests
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk
@@ -25,14 +27,16 @@ class CourseManager(Gtk.Box):
         self.button.set_size_request(60, 40)
         self.button.set_alignment(1, 0)
         self.pack_start(self.button, False, False, 10)
-        
-        
+      
     def create_entry(self):
         self.entry = Gtk.Entry()
         self.entry.set_placeholder_text("Enter your query:")
-        self.entry.connect("changed", metodeThread)
+        self.entry.connect("changed", self.metodeThread)
         self.pack_start(entry, False, False, 0)
-
+    
+    #def crear grid i taula:
+    
+    
     def metodeThread(self, widjet):  #creem un thread per consultar el server de forma concurrent
         text = entry.get_text()
         thread1 = threading.Thread(target= self.consultarServer(text))  #li passem el que esta escrit
@@ -54,17 +58,20 @@ class CourseManager(Gtk.Box):
         response = requests.get(url)
         result = response.json()
         
-        
         GObject.idle_add(self.update_ui, result)  #modifica la interficie grafica
         
     def update_ui(self,result):
         #posar les dades maques
+        array_of_strings = [json.dumps(entry) for entry in result]
+        for entry_str in array_of_strings:
+            entry_dict = json.loads(entry_str)
+            
         #modifciar taula
         
 if __name__ == '__main__':
     
     entry = Gtk.Entry()
-    course_manager = CourseManager(entry_handler)
+    course_manager = CourseManager()
 
     win = Gtk.Window()
     Gtk.Window.__init__(win, title = 'Course Manager')
