@@ -1,5 +1,4 @@
 import sys
-
 import gi
 import threading 
 import requests
@@ -18,6 +17,7 @@ class EntryHandler:
         if text:
             self.thread = threading.Thread(target=self.request)
             self.thread.start()
+
     def request(self):
         request_data = self.entry.split("?")
         tables = request_data[0]
