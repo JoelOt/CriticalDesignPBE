@@ -60,7 +60,7 @@ class CourseManager(Gtk.Grid):
         array_of_strings = [json.dumps(entry) for i, entry in result]
         for j, entry_str in array_of_strings:
             entry_dict = json.loads(entry_str)
-            label = Gtk.Label(label=str(value))
+            label = Gtk.Label(label=str(entry_dict))
             grid.attach(label, j, i, 1, 1)
             
         self.main_grid.attach(grid, 0, 2, 2, 1)
