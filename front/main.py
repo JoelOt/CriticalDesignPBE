@@ -22,8 +22,9 @@ class CourseManager(Gtk.Grid):
         self.show_all()
 
     def create_button(self):
-        button = Gtk.Button(label = 'Logout')
+        self.button = Gtk.Button(label = 'Logout')
         self.attach(button,1, 0, 1, 1)
+        self.button.connect("clicked", self.login)
         
     def create_entry(self):
         entry = Gtk.Entry()
@@ -44,9 +45,6 @@ class CourseManager(Gtk.Grid):
             #if response.status_code == 200:
                 #result = response.text()
                 #ensenyar al lcd en thread auxiliar
-
-    #def logout (self):
-        #self.login()
 
     def metodeThread(self, widjet):  #creem un thread per consultar el server de forma concurrent
         text = entry.get_text()
