@@ -35,7 +35,7 @@ class RequestHandler:
       variables = request_data[1]
       textvar = ""
       if (len(request_data) >= 2){
-          textvar = tables + variables
+          textvar = tables + "&" + variables
       } else if (){
           textvar = tables
       }else{
