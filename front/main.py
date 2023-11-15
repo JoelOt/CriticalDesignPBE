@@ -11,12 +11,12 @@ from entry_handler import EntryHandler
 
 
 class CourseManager(Gtk.Grid):
-    def __init__(self, entry_handler):
+    def __init__(self):
         super().__init__()
 
         self.set_size_request(-1, 20)
         self.create_button()
-        self.create_entry(entry_handler)
+        self.create_entry()
         self.create_grid()
         
         self.show_all()
@@ -25,10 +25,10 @@ class CourseManager(Gtk.Grid):
         button = Gtk.Button(label = 'Logout')
         self.attach(button,1, 0, 1, 1)
         
-    def create_entry(self, entry_handler):
+    def create_entry(self):
         entry = Gtk.Entry()
         entry.set_placeholder_text("Enter your query:")
-        entry.connect("changed", entry_handler.on_entry_changed)
+        entry.connect("changed", metodeThread)
         self.attach(entry,0, 1, 1, 1)
 
     def create_grid(self)
