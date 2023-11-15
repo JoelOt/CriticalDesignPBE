@@ -31,7 +31,10 @@ class RequestHandler:
 
   def request(self):
       request_data = self.text.get().split("?")
-      url = "http://localhost:8080/CriticalDesignPBE/back/index.php?request={}&{}".format(request_data[0], request_data[1])
+      tables = request_data[0]
+      variables = request_data[1]
+      
+      url = "http://localhost:8080/CriticalDesignPBE/back/index.php?tables={}&".format(tables) + variables
       response = requests.get(url)
       result = response.json()
       self.callback(result)
