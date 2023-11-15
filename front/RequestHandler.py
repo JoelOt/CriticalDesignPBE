@@ -14,7 +14,7 @@ class EntryHandler:
         self.entry.connect("changed", self.on_entry_changed)
 
     def on_entry_changed(self):
-        if text:
+        if self.entry:
             self.thread = threading.Thread(target=self.request)
             self.thread.start()
 
