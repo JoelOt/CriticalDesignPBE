@@ -17,7 +17,8 @@ class CourseManager(Gtk.Grid):
         self.set_size_request(-1, 20)
         self.create_button()
         self.create_entry(entry_handler)
-
+        self.create_grid()
+        
         self.show_all()
 
     def create_button(self):
@@ -30,9 +31,12 @@ class CourseManager(Gtk.Grid):
         entry.connect("changed", entry_handler.on_entry_changed)
         self.attach(entry,0, 1, 1, 1)
 
+    def create_grid(self)
+        grid = Gtk.Grid()
+        grid.set_row_homogeneous(True)
+        grid.set_column_homogeneous(True)
+        self.attach(grid,0, 2, 2, 1)
 
-    #def crear grid i taula:
-    
     
     def metodeThread(self, widjet):  #creem un thread per consultar el server de forma concurrent
         text = entry.get_text()
@@ -53,11 +57,13 @@ class CourseManager(Gtk.Grid):
         
     def update_ui(self, result):
         #posar les dades maques
-        array_of_strings = [json.dumps(entry) for entry in result]
-        for entry_str in array_of_strings:
+        array_of_strings = [json.dumps(entry) for i, entry in result]
+        for j, entry_str in array_of_strings:
             entry_dict = json.loads(entry_str)
+            label = Gtk.Label(label=str(value))
+            grid.attach(label, j, i, 1, 1)
             
-        #modifciar taula
+        self.main_grid.attach(grid, 0, 2, 2, 1)
         
 if __name__ == '__main__':
     
