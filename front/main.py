@@ -21,18 +21,22 @@ class CourseManager(Gtk.Grid):
         self.button = Gtk.Button(label = 'Logout')
         self.attach(button,1, 0, 1, 1)
         self.button.connect("clicked", self.login)
+        slef.button.hide()
         
     def create_entry(self):
         self.entry = Gtk.Entry()
         self.entry.set_placeholder_text("Enter your query:")
         self.entry.connect("changed", metodeThread)
         self.attach(entry,0, 1, 1, 1)
+        slef.entry.hide()
 
 
     def login (self):  #crec que ja ens convé que sigui bloquejant
+        self.create_button()
+        self.create_entry()
         label = Gtk.Label(label="acerque su tarjeta")
-        self.attach(entry,0, 1, 1, 1)
-        self.show_all()
+        self.attach(label,0, 1, 1, 1)
+        label.show()
 
         #llegir uid
         
@@ -43,9 +47,8 @@ class CourseManager(Gtk.Grid):
         if response.status_code == 200:
             result = response.text()
             #ensenyar al lcd en thread auxiliar
+        lable.hide()
         label.destroy()
-        self.create_button()
-        self.create_entry()
         self.show_all()
 
 
