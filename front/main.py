@@ -30,10 +30,16 @@ class CourseManager(Gtk.Grid):
         self.attach(entry,0, 1, 1, 1)
         slef.entry.hide()
 
+    def create_grid(self):
+        self.grid = Gtk.Grid()
+        self.grid.set_row_homogeneous(True)
+        self.grid.set_column_homogeneous(True)
+        self.attach(self.grid, 0, 2, 2, 1)
+        slef.grid.hide()
+
 
     def login (self):  #crec que ja ens convé que sigui bloquejant
-        self.create_button()
-        self.create_entry()
+        self.hide_all()
         label = Gtk.Label(label="acerque su tarjeta")
         self.attach(label,0, 1, 1, 1)
         label.show()
@@ -49,8 +55,10 @@ class CourseManager(Gtk.Grid):
             #ensenyar al lcd en thread auxiliar
         lable.hide()
         label.destroy()
-        self.show_all()
+        slef.entry.show()
+        slef.button.show()
 
+    
 
     def metodeThread(self, widjet):  #creem un thread per consultar el server de forma concurrent
         text = entry.get_text()
@@ -72,16 +80,12 @@ class CourseManager(Gtk.Grid):
     def update_ui(self, result):
         matriz = json.loads(result)
         
-        grid = Gtk.Grid()
-        grid.set_row_homogeneous(True)
-        grid.set_column_homogeneous(True)
-        
         for i, fila in enumerate(matriz):
             for j, dada in enumerate(fila):
                 label = Gtk.Label(label=str(dada))
-                grid.attach(label, j, i, 1, 1)
+                self.grid.attach(label, j, i, 1, 1)
                 
-        self.attach(grid, 0, 2, 2, 1)
+        self.grid.show()
 
 
 if __name__ == '__main__':
