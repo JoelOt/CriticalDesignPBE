@@ -31,12 +31,7 @@ class CourseManager(Gtk.Grid):
         entry.set_placeholder_text("Enter your query:")
         entry.connect("changed", metodeThread)
         self.attach(entry,0, 1, 1, 1)
-
-    def create_grid(self)
-        grid = Gtk.Grid()
-        grid.set_row_homogeneous(True)
-        grid.set_column_homogeneous(True)
-        self.attach(grid,0, 2, 2, 1)
+        
 
     #def login (self):  #crec que ja ens convé que sigui bloquejant
         #llegir uid
@@ -60,19 +55,24 @@ class CourseManager(Gtk.Grid):
         print("STATUS: {}, url: {}".format(response.status_code, url))
         # verificar si la request és exitosa
         if response.status_code == 200: #200 exitosa, 404 url no trobat, 500 error en el php...
-            result = response.json()
+            result = response.text
             GObject.idle_add(self.update_ui, result)  #modifica la interficie grafica 
         
     def update_ui(self, result):
-        #posar les dades maques
-        array_of_strings = [json.dumps(entry) for i, entry in result]
-        for j, entry_str in array_of_strings:
-            entry_dict = json.loads(entry_str)
-            label = Gtk.Label(label=str(entry_dict))
-            grid.attach(label, j, i, 1, 1)
-            
-        self.main_grid.attach(grid, 0, 2, 2, 1)
+        matriz = json.loads(result)
         
+        grid = Gtk.Grid()
+        grid.set_row_homogeneous(True)
+        grid.set_column_homogeneous(True)
+        
+        for i, fila in enumerate(matriz):
+            for j, dada in enumerate(fila):
+                label = Gtk.Label(label=str(dada))
+                grid.attach(label, j, i, 1, 1)
+                
+        self.attach(grid, 0, 2, 2, 1)
+
+
 if __name__ == '__main__':
     
     entry = Gtk.Entry()
