@@ -15,31 +15,39 @@ class CourseManager(Gtk.Grid):
         super().__init__()
 
         self.set_size_request(-1, 20)
-        self.create_button()
-        self.create_entry()
-        self.create_grid()
-        
-        self.show_all()
-
+        self.login()
+    
     def create_button(self):
         self.button = Gtk.Button(label = 'Logout')
         self.attach(button,1, 0, 1, 1)
         self.button.connect("clicked", self.login)
         
     def create_entry(self):
-        entry = Gtk.Entry()
-        entry.set_placeholder_text("Enter your query:")
-        entry.connect("changed", metodeThread)
+        self.entry = Gtk.Entry()
+        self.entry.set_placeholder_text("Enter your query:")
+        self.entry.connect("changed", metodeThread)
         self.attach(entry,0, 1, 1, 1)
-        
 
-    #def login (self):  #crec que ja ens convé que sigui bloquejant
+
+    def login (self):  #crec que ja ens convé que sigui bloquejant
+        label = Gtk.Label(label="acerque su tarjeta")
+        self.attach(entry,0, 1, 1, 1)
+        self.show_all()
+
         #llegir uid
-            #url = "http://localhost:8080/CriticalDesignPBE/back/index.php?uid={}".format(uid)
-            #response = request.get(url)
-            #if response.status_code == 200:
-                #result = response.text()
-                #ensenyar al lcd en thread auxiliar
+        
+        label.set_text(uid)
+        
+        url = "http://localhost:8080/CriticalDesignPBE/back/index.php?uid={}".format(uid)
+        response = request.get(url)
+        if response.status_code == 200:
+            result = response.text()
+            #ensenyar al lcd en thread auxiliar
+        label.destroy()
+        self.create_button()
+        self.create_entry()
+        self.show_all()
+
 
     def metodeThread(self, widjet):  #creem un thread per consultar el server de forma concurrent
         text = entry.get_text()
@@ -55,7 +63,7 @@ class CourseManager(Gtk.Grid):
         print("STATUS: {}, url: {}".format(response.status_code, url))
         # verificar si la request és exitosa
         if response.status_code == 200: #200 exitosa, 404 url no trobat, 500 error en el php...
-            result = response.text
+            result = response.text()
             GObject.idle_add(self.update_ui, result)  #modifica la interficie grafica 
         
     def update_ui(self, result):
