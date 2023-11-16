@@ -15,27 +15,29 @@ class CourseManager(Gtk.Grid):
         super().__init__()
 
         self.set_size_request(-1, 20)
+        
+        self.create_button()
+        self.create_entry()
+        self.create_grid()
+        
         self.login()
     
     def create_button(self):
         self.button = Gtk.Button(label = 'Logout')
         self.attach(button,1, 0, 1, 1)
         self.button.connect("clicked", self.login)
-        slef.button.hide()
         
     def create_entry(self):
         self.entry = Gtk.Entry()
         self.entry.set_placeholder_text("Enter your query:")
         self.entry.connect("changed", metodeThread)
         self.attach(entry,0, 1, 1, 1)
-        slef.entry.hide()
 
     def create_grid(self):
         self.grid = Gtk.Grid()
         self.grid.set_row_homogeneous(True)
         self.grid.set_column_homogeneous(True)
         self.attach(self.grid, 0, 2, 2, 1)
-        slef.grid.hide()
 
 
     def login (self):  #crec que ja ens convé que sigui bloquejant
