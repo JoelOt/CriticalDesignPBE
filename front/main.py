@@ -53,7 +53,6 @@ class CourseManager(Gtk.Grid):
         if response.status_code == 200:
             result = response.text()
             #ensenyar al lcd en thread auxiliar
-        lable.hide()
         label.destroy()
         slef.entry.show()
         slef.button.show()
