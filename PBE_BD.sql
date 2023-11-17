@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-11-2023 a las 20:04:28
+-- Tiempo de generación: 17-11-2023 a las 14:12:41
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -28,46 +28,83 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `marks` (
-  `subject` varchar(20) NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `mark` float NOT NULL
+  `subject` varchar(15) NOT NULL,
+  `name` varchar(15) NOT NULL,
+  `mark` float NOT NULL,
+  `id` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `marks`
 --
 
-INSERT INTO `marks` (`subject`, `name`, `mark`) VALUES
-('AST', 'Parcial', 8),
-('ICOM ', 'Parcial 1', 3.5),
-('AST', 'Parcial', 8),
-('ICOM ', 'Parcial 1', 3.5),
-('IPAV', 'Parcial 1', 2.5),
-('IPAV', 'Parcial 2', 7.5),
-('IPAV', 'Parcial 1', 2.5),
-('IPAV', 'Parcial 2', 7.5),
-('RP', 'Practica 1', 10),
-('RP', 'Practica 2', 7.5),
-('RP', 'Practica 3', 8.5),
-('ICOM', 'Practica 1', 7),
-('ICOM', 'Practica 2', 7.5),
-('DSBM', 'Practica 1 ', 8.35),
-('DSBM ', 'Practica 2 ', 7.5),
-('DSBM ', 'Parcial ', 5.5),
-('RP', 'Parcial', 6.5),
-('PBE', 'Puzzle 1', 8),
-('PBE ', 'Puzzle 2', 8),
-('RP', 'Practica 1', 10),
-('RP', 'Practica 2', 7.5),
-('RP', 'Practica 3', 8.5),
-('ICOM', 'Practica 1', 7),
-('ICOM', 'Practica 2', 7.5),
-('DSBM', 'Practica 1 ', 8.35),
-('DSBM ', 'Practica 2 ', 7.5),
-('DSBM ', 'Parcial ', 5.5),
-('RP', 'Parcial', 6.5),
-('PBE', 'Puzzle 1', 8),
-('PBE ', 'Puzzle 2', 8);
+INSERT INTO `marks` (`subject`, `name`, `mark`, `id`) VALUES
+('AST ', 'Lab1', 4, 'D1FDE202'),
+('AST', 'Lab2 ', 5, 'D1FDE202'),
+('ICOM ', 'Practica1', 8, 'D1FDE202'),
+('ICOM ', 'Ex Parcial', 6, 'D1FDE202'),
+('IPAV', 'Parcial', 2.5, 'D1FDE202'),
+('IPAV', 'Practica1', 8.5, 'D1FDE202'),
+('RP', 'Control1', 10, 'D1FDE202'),
+('RP', 'Control2', 9, 'D1FDE202'),
+('rp', 'Parcial', 8, 'D1FDE202'),
+('ICOM', 'Practica2', 6.5, 'D1FDE202'),
+('AST', 'Control Teoria', 7, 'D1FDE202'),
+('DSBM', 'Entregable1 ', 7, 'D1FDE202'),
+('DSBM', 'Entregable2', 10, 'D1FDE202'),
+('DSBM', 'Parcial', 7.5, 'D1FDE202'),
+('DSBM ', 'Practica1', 7.4, 'D1FDE202'),
+('PSAVC', 'Parcial', 6, '938B506'),
+('PSAVC', 'Practica1 ', 7, '938B506'),
+('PSAVC', 'Practica2', 8, '938B506'),
+('RP', 'Control1', 9, '938B506'),
+('RP', 'Control2', 9, '938B506'),
+('PBE', 'Puzzle1', 7.5, '938B506'),
+('PBE', 'Puzzle2', 8, '938B506'),
+('PBE', 'Qüestionari1', 10, '938B506'),
+('PBE', 'Qüestionari2', 10, '938B506'),
+('AST', 'Lab1', 4, '938B506'),
+('AST ', 'Lab2', 6, '938B506'),
+('AST', 'Control Teoria', 9, '938B506'),
+('DSBM', 'Control ', 8, '938B506'),
+('DSBM', 'Practica1', 9, '938B506'),
+('DSBM', 'Practica2', 6.4, '938B506'),
+('DSBM ', 'Entregable1', 3.5, '938B506'),
+('DSBM', 'Entregable2', 4, '938B506'),
+('DSBM ', 'Practica3', 2, '938B506'),
+('AST ', 'Lab1', 4, 'D1FDE202'),
+('AST', 'Lab2 ', 5, 'D1FDE202'),
+('ICOM ', 'Practica1', 8, 'D1FDE202'),
+('ICOM ', 'Ex Parcial', 6, 'D1FDE202'),
+('IPAV', 'Parcial', 2.5, 'D1FDE202'),
+('IPAV', 'Practica1', 8.5, 'D1FDE202'),
+('RP', 'Control1', 10, 'D1FDE202'),
+('RP', 'Control2', 9, 'D1FDE202'),
+('rp', 'Parcial', 8, 'D1FDE202'),
+('ICOM', 'Practica2', 6.5, 'D1FDE202'),
+('AST', 'Control Teoria', 7, 'D1FDE202'),
+('DSBM', 'Entregable1 ', 7, 'D1FDE202'),
+('DSBM', 'Entregable2', 10, 'D1FDE202'),
+('DSBM', 'Parcial', 7.5, 'D1FDE202'),
+('DSBM ', 'Practica1', 7.4, 'D1FDE202'),
+('PSAVC', 'Parcial', 6, '938B506'),
+('PSAVC', 'Practica1 ', 7, '938B506'),
+('PSAVC', 'Practica2', 8, '938B506'),
+('RP', 'Control1', 9, '938B506'),
+('RP', 'Control2', 9, '938B506'),
+('PBE', 'Puzzle1', 7.5, '938B506'),
+('PBE', 'Puzzle2', 8, '938B506'),
+('PBE', 'Qüestionari1', 10, '938B506'),
+('PBE', 'Qüestionari2', 10, '938B506'),
+('AST', 'Lab1', 4, '938B506'),
+('AST ', 'Lab2', 6, '938B506'),
+('AST', 'Control Teoria', 9, '938B506'),
+('DSBM', 'Control ', 8, '938B506'),
+('DSBM', 'Practica1', 9, '938B506'),
+('DSBM', 'Practica2', 6.4, '938B506'),
+('DSBM ', 'Entregable1', 3.5, '938B506'),
+('DSBM', 'Entregable2', 4, '938B506'),
+('DSBM ', 'Practica3', 2, '938B506');
 
 -- --------------------------------------------------------
 
