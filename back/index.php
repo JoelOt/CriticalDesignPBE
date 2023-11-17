@@ -1,16 +1,15 @@
 <?php 
-session_start();
+//session_start();
 include("db.php"); //include tira el codi de l'arxiu que dius, aquest obre la db
 
-if(isset($_GET['uid'])){
-    $uidGet = $_GET['uid'];
-    $_SESSION['uid'] = $uidGet;  //session es per mantenir el valor en diferents requests
-    $consultaUid = SELECT userName FROM students WHERE uid = '$uidGet'";
-    $resUid = mysqli_query($conn,         
-$consultaUid);
-    $userName = mysqli_fetch_assoc($resultUid)['userName'];        
+//if(isset($_GET['uid'])){
+//    $uidGet = $_GET['uid'];
+//    $_SESSION['uid'] = $uidGet;  //session es per mantenir el valor en diferents requests
+//    $consultaUid = SELECT userName FROM students WHERE uid = '$uidGet'";
+//    $resUid = mysqli_query($conn,$consultaUid);
+//    $userName = mysqli_fetch_assoc($resultUid)['userName'];        
     //echo "userName:" . $userName;  //enviem el userName per ensenyar-lo per LCD
-} 
+//} 
    
 if(isset($_GET['request'])){ // si s'ha enviat una request (timetables, marks o tasks):
  $request = $_GET['request'];
@@ -30,12 +29,12 @@ if(isset($_GET['request'])){ // si s'ha enviat una request (timetables, marks o 
 
     }elseif($request == 'marks'){
         $uid = $_SESSION['uid'];  //reagafem el valor uid de la sessió     
-        $consulta = "SELECT * FROM marks WHERE uid = '$uid'";
+        $consulta = "SELECT * FROM marks";
         if(isset($_GET['subject'])){
             $subject = $_GET['subject'];
             $consulta .= " AND subject = '$subject'";
         }if(isset($_GET['mark[lt]'])){
-       s     $mark = $_GET['mark[lt]'];
+            $mark = $_GET['mark[lt]'];
             $consulta .= " AND mark < '$mark'";
 }
 
