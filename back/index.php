@@ -1,13 +1,14 @@
 <?php 
-session.start();
+session_start();
 include("db.php"); //include tira el codi de l'arxiu que dius, aquest obre la db
 
 if(isset($_GET['uid'])){
     $uidGet = $_GET['uid'];
     $_SESSION['uid'] = $uidGet;  //session es per mantenir el valor en diferents requests
     $consultaUid = SELECT userName FROM students WHERE uid = '$uidGet'";
-    $userName = mysqli_query($conn,         
-$consultaUid);        
+    $resUid = mysqli_query($conn,         
+$consultaUid);
+    $userName = mysqli_fetch_assoc($resultUid)['userName'];        
     //echo "userName:" . $userName;  //enviem el userName per ensenyar-lo per LCD
 } 
    
