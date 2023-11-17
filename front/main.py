@@ -24,14 +24,14 @@ class CourseManager(Gtk.Grid):
     
     def create_button(self):
         self.button = Gtk.Button(label = 'Logout')
-        self.attach(button,1, 0, 1, 1)
+        self.attach(self.button,1, 0, 1, 1)
         self.button.connect("clicked", self.login)
         
     def create_entry(self):
         self.entry = Gtk.Entry()
         self.entry.set_placeholder_text("Enter your query:")
         self.entry.connect("changed", metodeThread)
-        self.attach(entry,0, 1, 1, 1)
+        self.attach(self.entry,0, 1, 1, 1)
 
     def create_grid(self):
         self.grid = Gtk.Grid()
@@ -51,7 +51,7 @@ class CourseManager(Gtk.Grid):
         label.set_text(uid)
         
         url = "http://localhost:8080/CriticalDesignPBE/back/index.php?uid={}".format(uid)
-        response = request.get(url)
+        response = requests.get(url)
         if response.status_code == 200:
             result = response.text()
             #ensenyar al lcd en thread auxiliar
@@ -62,7 +62,7 @@ class CourseManager(Gtk.Grid):
     
 
     def metodeThread(self, widjet):  #creem un thread per consultar el server de forma concurrent
-        text = entry.get_text()
+        text = self.entry.get_text()
         thread1 = threading.Thread(target= self.consultarServer(text))  #li passem el que esta escrit
         thread1.start()
         
@@ -75,7 +75,7 @@ class CourseManager(Gtk.Grid):
         print("STATUS: {}, url: {}".format(response.status_code, url))
         # verificar si la request és exitosa
         if response.status_code == 200: #200 exitosa, 404 url no trobat, 500 error en el php...
-            result = response.text()
+            result = response.text
             GObject.idle_add(self.update_ui, result)  #modifica la interficie grafica 
         
     def update_ui(self, result):
