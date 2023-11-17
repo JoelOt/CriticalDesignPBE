@@ -6,8 +6,6 @@ import requests
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk
-from course_manager import CourseManager
-from entry_handler import EntryHandler
 
 
 class CourseManager(Gtk.Grid):
