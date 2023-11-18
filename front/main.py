@@ -63,6 +63,9 @@ class CourseManager(Gtk.Grid):
         except json.decoder.JSONDecodeError as e:
             print("Error al decodificar JSON:", e)
             return
+
+        for widget in self.grid.get_children():
+            widget.destroy()
         
         if self.req == 'marks':
             labels = ['subject', 'name', 'mark', 'id']
