@@ -15,29 +15,44 @@ class CourseManager(Gtk.Grid):
         self.set_size_request(-1, 20)
         
         self.create_button()
-        self.create_entry()
-        self.create_grid()
         
-        #self.login()
+        self.create_entry()
+      
+        self.login()
     
     def create_button(self):
         self.button = Gtk.Button(label = 'Logout')
         self.attach(self.button,1, 0, 1, 1)
         estil = self.button.get_style_context()
         estil.add_class("button_style")
-     #   self.button.connect("clicked", self.login)
+        self.button.connect("clicked", self.login)
         
     def create_entry(self):
         self.entry = Gtk.Entry()
         self.entry.set_placeholder_text("Enter your query:")
         self.entry.connect("activate", self.metodeThread)
-        self.attach(self.entry,0, 1, 1, 1)
+        self.attach(self.entry,0, 0, 1, 1)
 
-    def create_grid(self):
-        self.grid = Gtk.Grid()
-        self.grid.set_row_homogeneous(True)
-        self.grid.set_column_homogeneous(True)
-        self.attach(self.grid, 0, 2, 2, 1)
+    def login(self):
+        self.nom = None
+        self.hide_all()
+        self.label = Gtk.Label("acerque la tarjeta")
+        self.attach(self.lable,0, 1, 1, 1)
+        self.label.show()
+
+        #llegeix uid
+        uid = 'D1FDE202'
+        self.label.set_text(uid)
+
+        url = "http://localhost:8080/CriticalDesignPBE/back/index.php/uid?uid={}".format(uid)
+        response = requests.get(url)
+        if response.status_code == 200:
+                self.nom = response.text
+
+        #print lcd
+
+        self.label.destroy()
+        self.show_all()
 
     def metodeThread(self, widget):  #creem un thread per consultar el server de forma concurrent
         text = self.entry.get_text()
@@ -45,12 +60,10 @@ class CourseManager(Gtk.Grid):
         thread1.start()
       
     def consultarServer(self, text):  #fa la consulta GET i rep com a resultat un json 
-        request = text.split("?")
-        self.req = request[0]
-        if len(request) < 2:
-            request.append('')
-        url = "http://localhost:8080/CriticalDesignPBE/back/index.php?request={}&{}".format(request[0], request[1])  #url de l'arxiu index.php on s'envia la request per que el processi
-        response = requests.get(url)  #fem una request post a l'url enviant les data
+        request = text
+        self.req = request.split("?")[0]
+        url = "http://localhost:8080/CriticalDesignPBE/back/index.php/{}".format(request)
+        response = requests.get(url)
         print("STATUS: {}, url: {}".format(response.status_code, url))
         # verificar si la request és exitosa
         if response.status_code == 200: #200 exitosa, 404 url no trobat, 500 error en el php...
@@ -63,10 +76,11 @@ class CourseManager(Gtk.Grid):
         except json.decoder.JSONDecodeError as e:
             print("Error al decodificar JSON:", e)
             return
-
-        for widget in self.grid.get_children():
-            widget.destroy()
         
+        for widget in self.get_children():
+            if widget is not self.entry and widget is not self.button:
+                widget.destroy()
+
         if self.req == 'marks':
             labels = ['subject', 'name', 'mark', 'id']
         elif self.req == 'timetables':
@@ -98,6 +112,7 @@ class MyWindow(Gtk.Window):
         super().__init__(title = 'Course Manager')
         self.set_default_size(800, 500)
         self.connect("destroy", Gtk.main_quit)
+        
 
 if __name__ == '__main__':
     
