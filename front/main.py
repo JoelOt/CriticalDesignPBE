@@ -17,7 +17,6 @@ class CourseManager(Gtk.Grid):
         self.create_button()
         
         self.create_entry()
-      
         self.login()
     
     def create_button(self):
@@ -30,10 +29,10 @@ class CourseManager(Gtk.Grid):
     def create_entry(self):
         self.entry = Gtk.Entry()
         self.entry.set_placeholder_text("Enter your query:")
-        self.entry.connect("activate", self.metodeThread)
+        self.entry.connect("activate", self.metodeThread(widget=None, uid=self.uid))  #passem el uid NO SE QUE FER AMB WIDJET
         self.attach(self.entry,0, 0, 1, 1)
 
-    def login(self):
+    def login(self):  #aniria molt be que retornes uid directament
         self.nom = None
         self.hide_all()
         self.label = Gtk.Label("acerque la tarjeta")
@@ -41,31 +40,30 @@ class CourseManager(Gtk.Grid):
         self.label.show()
 
         #llegeix uid
-        uid = 'D1FDE202'
-        self.label.set_text(uid)
+        self.uid = 'D1FDE202'  #el fem variable global per enviar-lo a la request
+        self.label.set_text(self.uid)
 
-        url = "http://localhost:8080/CriticalDesignPBE/back/index.php/uid?uid={}".format(uid)
+        url = "http://localhost:8080/CriticalDesignPBE/back/index.php/uid?uid={}".format(self.uid)
         response = requests.get(url)
         if response.status_code == 200:
                 self.nom = response.text
 
         #print lcd
-
         self.label.destroy()
         self.show_all()
-
-    def metodeThread(self, widget):  #creem un thread per consultar el server de forma concurrent
+         
+    def metodeThread(self, widget, uid):  #creem un thread per consultar el server de forma concurrent
         text = self.entry.get_text()
-        thread1 = threading.Thread(target= self.consultarServer(text))  #li passem el que esta escrit
+        thread1 = threading.Thread(target= self.consultarServer(text,uid))  #li passem el que esta escrit i el uid
         thread1.start()
       
-    def consultarServer(self, text):  #fa la consulta GET i rep com a resultat un json 
+    def consultarServer(self, text, uid):  #fa la consulta GET i rep com a resultat un json 
         request = text
         self.req = request.split("?")[0]
         url = "http://localhost:8080/CriticalDesignPBE/back/index.php/{}".format(request)
-        response = requests.get(url)
+        headers = {'uid': uid}  #posem el uid a la capçalera perque sino peta en alguns casos
+        response = requests.get(url, headers=headers)  #enviem la request amb capçalera extra
         print("STATUS: {}, url: {}".format(response.status_code, url))
-        # verificar si la request és exitosa
         if response.status_code == 200: #200 exitosa, 404 url no trobat, 500 error en el php...
             result = response.text
             GLib.idle_add(self.update_ui, result)  #modifica la interficie grafica
