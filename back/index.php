@@ -10,16 +10,11 @@ $route = $parts[0];
 
 switch ($route) {  //triem entre els diferents casos:
     case 'uid':
-            if(isset($_GET['uid'])){  //anem fent comprovacions sobre si existeix cada variable
-                $uidGet = $_GET['uid'];
-                $consultaUid = "SELECT userName FROM students WHERE `uid` = '$uidGet'";  //agafem el userName de la persona corresponent i l'enviem al client en format json
-                $resUid = mysqli_query($conn,$consultaUid);  //realitza la consulta mysql a la db conn
-                $result = mysqli_fetch_assoc($resUid); //ho passem a un array associatiu
-                header('Content-Type: application/json');  //indiquem que enviem les dades en format json
-                echo json_encode($result);  //enviem al client
-                exit();  //acabem l'execució per tal que no dongui error al processar la consulta general (inexistent en aquest cas)
-            };
-            break; //no passarà mai desde el nostre client
+        if(isset($_SERVER['HTTP_UID'])){    //el uid el passem a la capçalera de la solicitud, en get dona error quan no hi ha restriccions al url
+            $uid = $_SERVER['HTTP_UID'];    //d'aquesta manera podem recuperar el seu valor
+            $consulta = "SELECT userName FROM students WHERE `uid` = '$uid'";  //agafem el userName de la persona corresponent i l'enviem al client en format json
+        };
+        break; //no passarà mai desde el nostre client
     case 'timetables':
         $consulta = "SELECT * FROM timetables";  //la consulta ha de retornar tota la llista timetables seguint les restriccions esmentades
         if(isset($_GET['day'])){  //comprovem si ha posat dia a la request i en cas positiu el guardem i creeem una restricció mysql
@@ -51,8 +46,8 @@ switch ($route) {  //triem entre els diferents casos:
         }
             break;
     case 'marks':
-        if(isset($_SERVER['HTTP_UID'])){    //el uid el passem a la capçalera de la solicitud, en get dona error quan no hi ha restriccions al url
-            $uid = $_SERVER['HTTP_UID'];    //d'aquesta manera podem recuperar el seu valor
+        if(isset($_SERVER['HTTP_UID'])){
+            $uid = $_SERVER['HTTP_UID'];    
             $consulta = "SELECT * FROM marks WHERE id = '$uid'";  //restringim al uid
         }
         if(isset($_GET['subject'])){
