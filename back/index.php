@@ -1,68 +1,78 @@
-<?php 
-//session_start();
-include("db.php"); //include tira el codi de l'arxiu que dius, aquest obre la db
+<?php
+include("db.php"); //include aplica el codi de l'arxiu que dius, aquest obre la db
 
-//if(isset($_GET['uid'])){
-//    $uidGet = $_GET['uid'];
-//    $_SESSION['uid'] = $uidGet;  //session es per mantenir el valor en diferents requests
-//    $consultaUid = SELECT userName FROM students WHERE uid = '$uidGet'";
-//    $resUid = mysqli_query($conn,$consultaUid);
-//    $userName = mysqli_fetch_assoc($resultUid)['userName'];        
-    //echo "userName:" . $userName;  //enviem el userName per ensenyar-lo per LCD
-//} 
-$requestUri = $_SERVER['REQUEST_URI'];
-$parts = explode('/', $requestUri);
+$requestUri = $_SERVER['REQUEST_URI'];  //agafem la url de la request
+$parts = explode('/', $requestUri);  //separem per parts i ens quedem amb la última, sera ex: timetables?day=Fri&hour=8:00
 $parts = array_filter($parts);
 $parts = end($parts);
-$parts = explode('?', $parts);
+$parts = explode('?', $parts);  //separem i agafem la part abans de "="
 $route = $parts[0];
 
-switch ($route) {
+switch ($route) {  //triem entre els diferents casos:
+    case 'uid':
+            if(isset($_GET['uid'])){  //anem fent comprovacions sobre si existeix cada variable
+                $uidGet = $_GET['uid'];
+                $consultaUid = "SELECT userName FROM students WHERE `uid` = '$uidGet'";  //agafem el userName de la persona corresponent i l'enviem al client en format json
+                $resUid = mysqli_query($conn,$consultaUid);  //realitza la consulta mysql a la db conn
+                $result = mysqli_fetch_assoc($resUid); //ho passem a un array associatiu
+                header('Content-Type: application/json');  //indiquem que enviem les dades en format json
+                echo json_encode($result);  //enviem al client
+                exit();  //acabem l'execució per tal que no dongui error al processar la consulta general (inexistent en aquest cas)
+            };
+            break; //no passarà mai desde el nostre client
     case 'timetables':
-        $consulta = "SELECT * FROM timetables";
-        if(isset($_GET['day'])){
+        $consulta = "SELECT * FROM timetables";  //la consulta ha de retornar tota la llista timetables seguint les restriccions esmentades
+        if(isset($_GET['day'])){  //comprovem si ha posat dia a la request i en cas positiu el guardem i creeem una restricció mysql
             $day = $_GET['day'];
-            $consulta .= " WHERE day = '$day'";
+            $consulta .= " WHERE day = '$day'";  //estem assumient que no es pot especificar hour sense abans day
             if(isset($_GET['hour'])){
                 $hour = $_GET['hour'];
                 $consulta .= " AND hour = '$hour'";
             }
-        }if(isset($_GET['limit'])){
+        }if(isset($_GET['limit'])){  //limit ya ve donat per la sintaxis mysql i limita el nombre de files que pot tenir la resposta
             $limit = $_GET['limit'];
             $consulta .= " LIMIT $limit"; 
         }
         break;
-
-    case 'marks':     
-        $consulta = "SELECT * FROM marks";
-        if(isset($_GET['subject'])){
-            $subject = $_GET['subject'];
-            $consulta .= " WHERE subject = '$subject'";
-        }if(isset($_GET['mark[lt]'])){
-            $mark = $_GET['mark[lt]'];
-            $consulta .= " AND mark < '$mark'";
-        }
-        break;
-
     case 'tasks':
-        $consulta = "SELECT * FROM tasks ORDER BY date";
+        $consulta = "SELECT * FROM tasks"; 
         if(isset($_GET['date'])){
             $date = $_GET['date'];
-            $consulta .= " WHERE date = '$date'";
+            if($date = "now"){
+                $consulta .= " WHERE date = CURRENT_DATE";  //CURRENT_DATE es una paraula reservada de mysql que dona la data d'avui 
+            }else{
+                $consulta .= " WHERE date = '$date'";
+            }
         }
+        $consulta .= " ORDER BY date";  //ha d'anar aqui per seguir l'ordre establert a les sentències mysql
         if(isset($_GET['limit'])){
             $limit = $_GET['limit'];
             $consulta .= " LIMIT $limit"; 
         }
+            break;
+    case 'marks':
+        if(isset($_SERVER['HTTP_UID'])){    //el uid el passem a la capçalera de la solicitud, en get dona error quan no hi ha restriccions al url
+            $uid = $_SERVER['HTTP_UID'];    //d'aquesta manera podem recuperar el seu valor
+            $consulta = "SELECT * FROM marks WHERE id = '$uid'";  //restringim al uid
+        }
+        if(isset($_GET['subject'])){
+            $subject = $_GET['subject'];
+            $consulta .= " AND subject = '$subject'";
+        }if (isset($_GET['mark']['lt'])) {  //no entenc la tria [lt] per denominar less than, segon he investigat no és una forma recurrent indicar-ho entre [] i genera problemes
+            $mark = $_GET['mark']['lt'];
+            $consulta .= " AND mark < '$mark'";  //retorna les marks < al valor esmentat
+        }
         break;
     default:
-        break;
+        echo "error en l'url";  //hi ha un error en l'url ja que no és cap cas del switch
+        exit();
     }
-    $resultat = mysqli_query($conn, $consulta);  //executa la consulta $consulta a la db $conn
-    $data= array();
-    while($row = mysqli_fetch_assoc($resultat)){
+    $result = mysqli_query($conn, $consulta);  //executa la consulta $consulta a la db $conn
+    $data= array(); //l'inicialitzem com un array buit
+    while($row = mysqli_fetch_assoc($result)){  //anem recollint els arrays de les diferents columnes i fent un array de arrays, és a dir, una matriu
         $data[] = $row;
     }
-    header('Content-Type: application/json');
-    echo json_encode($data);
+    header('Content-Type: application/json');  //indiquem a la capçalera que les dades son en foramt json
+    echo json_encode($data);    //les enviem al client codificades en aquest format
 ?>
+
