@@ -43,7 +43,7 @@ class CourseManager(Gtk.Grid):
         reader = Rfid()
         uid = reader.read_uid()
         
-        self.uid = 'D1FDE202'  #el fem variable global per enviar-lo a la request
+        #self.uid = 'D1FDE202'  #el fem variable global per enviar-lo a la request
         self.label.set_text(self.uid)
 
         url = "http://localhost:8080/CriticalDesignPBE/back/index.php/uid"
