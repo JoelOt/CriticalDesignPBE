@@ -3,6 +3,7 @@ import threading
 import gi
 import json
 import requests
+from nfc import Rfid
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk, GLib
@@ -39,7 +40,9 @@ class CourseManager(Gtk.Grid):
         self.attach(self.lable,0, 1, 1, 1)
         self.label.show()
 
-        #llegeix uid
+        reader = Rfid()
+        uid = reader.read_uid()
+        
         self.uid = 'D1FDE202'  #el fem variable global per enviar-lo a la request
         self.label.set_text(self.uid)
 
