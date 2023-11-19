@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 17-11-2023 a las 14:12:41
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 19-11-2023 a las 14:17:16
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `PBE_BD`
+-- Base de datos: `pbe_bd`
 --
 
 -- --------------------------------------------------------
@@ -39,72 +39,91 @@ CREATE TABLE `marks` (
 --
 
 INSERT INTO `marks` (`subject`, `name`, `mark`, `id`) VALUES
-('AST ', 'Lab1', 4, 'D1FDE202'),
-('AST', 'Lab2 ', 5, 'D1FDE202'),
-('ICOM ', 'Practica1', 8, 'D1FDE202'),
-('ICOM ', 'Ex Parcial', 6, 'D1FDE202'),
-('IPAV', 'Parcial', 2.5, 'D1FDE202'),
-('IPAV', 'Practica1', 8.5, 'D1FDE202'),
-('RP', 'Control1', 10, 'D1FDE202'),
-('RP', 'Control2', 9, 'D1FDE202'),
-('rp', 'Parcial', 8, 'D1FDE202'),
-('ICOM', 'Practica2', 6.5, 'D1FDE202'),
-('AST', 'Control Teoria', 7, 'D1FDE202'),
-('DSBM', 'Entregable1 ', 7, 'D1FDE202'),
-('DSBM', 'Entregable2', 10, 'D1FDE202'),
-('DSBM', 'Parcial', 7.5, 'D1FDE202'),
-('DSBM ', 'Practica1', 7.4, 'D1FDE202'),
-('PSAVC', 'Parcial', 6, '938B506'),
-('PSAVC', 'Practica1 ', 7, '938B506'),
-('PSAVC', 'Practica2', 8, '938B506'),
-('RP', 'Control1', 9, '938B506'),
+('AST ', 'Lab1', 4, '938B506'),
+('AST', 'Lab2 ', 5, '938B506'),
+('ICOM ', 'Practica1', 8, '938B506'),
+('ICOM ', 'Ex Parcial', 6, '938B506'),
+('IPAV', 'Parcial', 2.5, '938B506'),
+('IPAV', 'Practica1', 8.5, '938B506'),
+('RP', 'Control1', 10, '938B506'),
 ('RP', 'Control2', 9, '938B506'),
-('PBE', 'Puzzle1', 7.5, '938B506'),
-('PBE', 'Puzzle2', 8, '938B506'),
-('PBE', 'Qüestionari1', 10, '938B506'),
-('PBE', 'Qüestionari2', 10, '938B506'),
-('AST', 'Lab1', 4, '938B506'),
-('AST ', 'Lab2', 6, '938B506'),
-('AST', 'Control Teoria', 9, '938B506'),
-('DSBM', 'Control ', 8, '938B506'),
-('DSBM', 'Practica1', 9, '938B506'),
-('DSBM', 'Practica2', 6.4, '938B506'),
-('DSBM ', 'Entregable1', 3.5, '938B506'),
-('DSBM', 'Entregable2', 4, '938B506'),
-('DSBM ', 'Practica3', 2, '938B506'),
-('AST ', 'Lab1', 4, 'D1FDE202'),
-('AST', 'Lab2 ', 5, 'D1FDE202'),
-('ICOM ', 'Practica1', 8, 'D1FDE202'),
-('ICOM ', 'Ex Parcial', 6, 'D1FDE202'),
-('IPAV', 'Parcial', 2.5, 'D1FDE202'),
-('IPAV', 'Practica1', 8.5, 'D1FDE202'),
-('RP', 'Control1', 10, 'D1FDE202'),
+('rp', 'Parcial', 8, '938B506'),
+('ICOM', 'Practica2', 6.5, '938B506'),
+('AST', 'Control Teoria', 7, '938B506'),
+('DSBM', 'Entregable1 ', 7, '938B506'),
+('DSBM', 'Entregable2', 10, '938B506'),
+('DSBM', 'Parcial', 7.5, '938B506'),
+('DSBM ', 'Practica1', 7.4, '938B506'),
+('PSAVC', 'Parcial', 6, 'D1FDE202'),
+('PSAVC', 'Practica1 ', 7, 'D1FDE202'),
+('PSAVC', 'Practica2', 8, 'D1FDE202'),
+('RP', 'Control1', 9, 'D1FDE202'),
 ('RP', 'Control2', 9, 'D1FDE202'),
-('rp', 'Parcial', 8, 'D1FDE202'),
-('ICOM', 'Practica2', 6.5, 'D1FDE202'),
-('AST', 'Control Teoria', 7, 'D1FDE202'),
-('DSBM', 'Entregable1 ', 7, 'D1FDE202'),
-('DSBM', 'Entregable2', 10, 'D1FDE202'),
-('DSBM', 'Parcial', 7.5, 'D1FDE202'),
-('DSBM ', 'Practica1', 7.4, 'D1FDE202'),
-('PSAVC', 'Parcial', 6, '938B506'),
-('PSAVC', 'Practica1 ', 7, '938B506'),
-('PSAVC', 'Practica2', 8, '938B506'),
-('RP', 'Control1', 9, '938B506'),
+('PBE', 'Puzzle1', 7.5, 'D1FDE202'),
+('PBE', 'Puzzle2', 8, 'D1FDE202'),
+('PBE', 'Qüestionari1', 10, 'D1FDE202'),
+('PBE', 'Qüestionari2', 10, 'D1FDE202'),
+('AST', 'Lab1', 4, 'D1FDE202'),
+('AST ', 'Lab2', 6, 'D1FDE202'),
+('AST', 'Control Teoria', 9, 'D1FDE202'),
+('DSBM', 'Control ', 8, 'D1FDE202'),
+('DSBM', 'Practica1', 9, 'D1FDE202'),
+('DSBM', 'Practica2', 6.4, 'D1FDE202'),
+('DSBM ', 'Entregable1', 3.5, 'D1FDE202'),
+('DSBM', 'Entregable2', 4, 'D1FDE202'),
+('DSBM ', 'Practica3', 2, 'D1FDE202'),
+('AST ', 'Lab1', 4, '938B506'),
+('AST', 'Lab2 ', 5, '938B506'),
+('ICOM ', 'Practica1', 8, '938B506'),
+('ICOM ', 'Ex Parcial', 6, '938B506'),
+('IPAV', 'Parcial', 2.5, '938B506'),
+('IPAV', 'Practica1', 8.5, '938B506'),
+('RP', 'Control1', 10, '938B506'),
 ('RP', 'Control2', 9, '938B506'),
-('PBE', 'Puzzle1', 7.5, '938B506'),
-('PBE', 'Puzzle2', 8, '938B506'),
-('PBE', 'Qüestionari1', 10, '938B506'),
-('PBE', 'Qüestionari2', 10, '938B506'),
-('AST', 'Lab1', 4, '938B506'),
-('AST ', 'Lab2', 6, '938B506'),
-('AST', 'Control Teoria', 9, '938B506'),
-('DSBM', 'Control ', 8, '938B506'),
-('DSBM', 'Practica1', 9, '938B506'),
-('DSBM', 'Practica2', 6.4, '938B506'),
-('DSBM ', 'Entregable1', 3.5, '938B506'),
-('DSBM', 'Entregable2', 4, '938B506'),
-('DSBM ', 'Practica3', 2, '938B506');
+('rp', 'Parcial', 8, '938B506'),
+('ICOM', 'Practica2', 6.5, '938B506'),
+('AST', 'Control Teoria', 7, '938B506'),
+('DSBM', 'Entregable1 ', 7, '938B506'),
+('DSBM', 'Entregable2', 10, '938B506'),
+('DSBM', 'Parcial', 7.5, '938B506'),
+('DSBM ', 'Practica1', 7.4, '938B506'),
+('PSAVC', 'Parcial', 6, 'D1FDE202'),
+('PSAVC', 'Practica1 ', 7, 'D1FDE202'),
+('PSAVC', 'Practica2', 8, 'D1FDE202'),
+('RP', 'Control1', 9, 'D1FDE202'),
+('RP', 'Control2', 9, 'D1FDE202'),
+('PBE', 'Puzzle1', 7.5, 'D1FDE202'),
+('PBE', 'Puzzle2', 8, 'D1FDE202'),
+('PBE', 'Qüestionari1', 10, 'D1FDE202'),
+('PBE', 'Qüestionari2', 10, 'D1FDE202'),
+('AST', 'Lab1', 4, 'D1FDE202'),
+('AST ', 'Lab2', 6, 'D1FDE202'),
+('AST', 'Control Teoria', 9, 'D1FDE202'),
+('DSBM', 'Control ', 8, 'D1FDE202'),
+('DSBM', 'Practica1', 9, 'D1FDE202'),
+('DSBM', 'Practica2', 6.4, 'D1FDE202'),
+('DSBM ', 'Entregable1', 3.5, 'D1FDE202'),
+('DSBM', 'Entregable2', 4, 'D1FDE202'),
+('DSBM ', 'Practica3', 2, 'D1FDE202');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `students`
+--
+
+CREATE TABLE `students` (
+  `uid` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `userName` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `students`
+--
+
+INSERT INTO `students` (`uid`, `userName`) VALUES
+('D1FDE202', 'Joel Otero'),
+('938B506', 'Ariadna Marcos');
 
 -- --------------------------------------------------------
 
@@ -130,6 +149,7 @@ INSERT INTO `tasks` (`date`, `subject`, `name`) VALUES
 ('2023-11-27', 'IPAV', 'EP 2'),
 ('2023-11-24', 'IPAV', 'Pràctica 4'),
 ('2023-11-22', 'PBE', 'CDR'),
+('2023-11-19', 'PBE', 'Entrega CD'),
 ('2023-11-19', 'RP', 'Control 3');
 
 -- --------------------------------------------------------
@@ -184,3 +204,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
