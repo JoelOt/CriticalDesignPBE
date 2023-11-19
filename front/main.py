@@ -29,11 +29,11 @@ class CourseManager(Gtk.Grid):
     def create_entry(self):
         self.entry = Gtk.Entry()
         self.entry.set_placeholder_text("Enter your query:")
-        self.entry.connect("activate", self.metodeThread(widget=None, uid=self.uid))  #passem el uid NO SE QUE FER AMB WIDJET
+        self.entry.connect("activate", self.metodeThread(widget=None, uid=self.uid))  #passem el uid, NO SE QUE FER AMB WIDJET
         self.attach(self.entry,0, 0, 1, 1)
 
     def login(self):  #aniria molt be que retornes uid directament
-        self.nom = None
+        self.userName = None
         self.hide_all()
         self.label = Gtk.Label("acerque la tarjeta")
         self.attach(self.lable,0, 1, 1, 1)
@@ -43,11 +43,11 @@ class CourseManager(Gtk.Grid):
         self.uid = 'D1FDE202'  #el fem variable global per enviar-lo a la request
         self.label.set_text(self.uid)
 
-        url = "http://localhost:8080/CriticalDesignPBE/back/index.php/uid?uid={}".format(self.uid)
-        response = requests.get(url)
+        url = "http://localhost:8080/CriticalDesignPBE/back/index.php/uid"
+        headers = {'uid': self.uid}
+        response = requests.get(url, headers=headers)
         if response.status_code == 200:
-                self.nom = response.text
-
+                self.userName = response.text
         #print lcd
         self.label.destroy()
         self.show_all()
