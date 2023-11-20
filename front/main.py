@@ -1,11 +1,10 @@
-
 import sys
 import threading
 import gi
 import json
 import requests
 from nfc import Rfid
-
+import i2c_lcd
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk, GLib
 
@@ -19,7 +18,9 @@ class CourseManager(Gtk.Grid):
         self.uid = None
         self.create_button()
         self.create_entry()
+        self.lcd = i2c_lcd.lcd()
         self.login()
+        
     
     def create_button(self):
         self.button = Gtk.Button(label = 'Logout')
@@ -43,15 +44,17 @@ class CourseManager(Gtk.Grid):
 
         reader = Rfid()
         self.uid = reader.read_uid()
-        
-        #self.label.set_text(self.uid)
+        print(self.uid)
+        self.label.set_text(self.uid)
 
         url = "http://10.42.0.1:8080/CriticalDesignPBE/back/index.php/uid"
         headers = {'uid': self.uid}
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
                 self.userName = response.text
-        print(self.userName)
+                self.lcd.lcd_clear()
+                self.lcd.lcd_display(self.userName)
+        print(self.userName[0])
         self.label.destroy()
         self.show_all()
          
