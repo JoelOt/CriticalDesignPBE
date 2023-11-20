@@ -48,7 +48,7 @@ switch ($route) {  //triem entre els diferents casos:
     case 'marks':
         if(isset($_SERVER['HTTP_UID'])){
             $uid = $_SERVER['HTTP_UID'];    
-            $consulta = "SELECT * FROM marks WHERE id = '$uid'";  //restringim al uid
+            $consulta = "SELECT subject,name,mark FROM marks WHERE id = '$uid'";  //restringim al uid
         }
         if(isset($_GET['subject'])){
             $subject = $_GET['subject'];
