@@ -1,3 +1,4 @@
+
 import sys
 import threading
 import gi
@@ -14,9 +15,9 @@ class CourseManager(Gtk.Grid):
         super().__init__()
 
         self.set_size_request(-1, 20)
-        
+        self.userName = None
+        self.uid = None
         self.create_button()
-        
         self.create_entry()
         self.login()
     
@@ -25,37 +26,36 @@ class CourseManager(Gtk.Grid):
         self.attach(self.button,1, 0, 1, 1)
         estil = self.button.get_style_context()
         estil.add_class("button_style")
-        self.button.connect("clicked", self.login)
+        self.button.connect("clicked", lambda button: self.login())
         
     def create_entry(self):
         self.entry = Gtk.Entry()
         self.entry.set_placeholder_text("Enter your query:")
-        self.entry.connect("activate", self.metodeThread(widget=None, uid=self.uid))  #passem el uid, NO SE QUE FER AMB WIDJET
+        self.entry.connect("activate", lambda entry: self.metodeThread(uid=self.uid))
+        
         self.attach(self.entry,0, 0, 1, 1)
 
-    def login(self):  #aniria molt be que retornes uid directament
-        self.userName = None
-        self.hide_all()
+    def login(self):
+        print("login...")
         self.label = Gtk.Label("acerque la tarjeta")
-        self.attach(self.lable,0, 1, 1, 1)
+        self.attach(self.label,0, 1, 1, 1)
         self.label.show()
 
         reader = Rfid()
         self.uid = reader.read_uid()
         
-        #self.uid = 'D1FDE202'  #el fem variable global per enviar-lo a la request
-        self.label.set_text(self.uid)
+        #self.label.set_text(self.uid)
 
-        url = "http://localhost:8080/CriticalDesignPBE/back/index.php/uid"
+        url = "http://10.42.0.1:8080/CriticalDesignPBE/back/index.php/uid"
         headers = {'uid': self.uid}
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
                 self.userName = response.text
-        #print lcd
+        print(self.userName)
         self.label.destroy()
         self.show_all()
          
-    def metodeThread(self, widget, uid):  #creem un thread per consultar el server de forma concurrent
+    def metodeThread(self, uid):  #creem un thread per consultar el server de forma concurrent
         text = self.entry.get_text()
         thread1 = threading.Thread(target= self.consultarServer(text,uid))  #li passem el que esta escrit i el uid
         thread1.start()
@@ -63,7 +63,7 @@ class CourseManager(Gtk.Grid):
     def consultarServer(self, text, uid):  #fa la consulta GET i rep com a resultat un json 
         request = text
         self.req = request.split("?")[0]
-        url = "http://localhost:8080/CriticalDesignPBE/back/index.php/{}".format(request)
+        url = "http://10.42.0.1:8080/CriticalDesignPBE/back/index.php/{}".format(request)
         headers = {'uid': uid}  #posem el uid a la capçalera perque sino peta en alguns casos
         response = requests.get(url, headers=headers)  #enviem la request amb capçalera extra
         print("STATUS: {}, url: {}".format(response.status_code, url))
@@ -83,7 +83,7 @@ class CourseManager(Gtk.Grid):
                 widget.destroy()
 
         if self.req == 'marks':
-            labels = ['subject', 'name', 'mark', 'id']
+            labels = ['subject', 'name', 'mark']
         elif self.req == 'timetables':
             labels = ['day', 'hour', 'subject', 'room']
         elif self.req == 'tasks':
@@ -117,15 +117,16 @@ class MyWindow(Gtk.Window):
 
 if __name__ == '__main__':
     
+    win = MyWindow()
+    win.__init__()
+    win.show_all()
     course_manager = CourseManager()
     css_provider = Gtk.CssProvider()
     css_provider.load_from_path("style.css")
- 
-    win = MyWindow()
-    win.__init__()
+    
+    
     win.add(course_manager)
     screen= Gdk.Screen.get_default()
     style_context = Gtk.StyleContext()
     style_context.add_provider_for_screen(screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-    win.show_all()
     Gtk.main()
