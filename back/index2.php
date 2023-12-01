@@ -3,7 +3,7 @@ include("db.php"); //include aplica el codi de l'arxiu que dius, aquest obre la 
 
 //https://localhost:8080/CriticalDesignPBE/back/index.php/timetables?day=FRi&hour=8:00&subect=PBE 
 
-function parse_query($query){   
+function parse_query($query){   //fa una llista key-value separant per =
     foreach($query as $val){
         list($key, $value) = explode('=', $val);
         $params[$key] = $value;
@@ -14,12 +14,12 @@ $table = $_SERVER['PATH_INFO'];
 $query = explode('&', $_SERVER['QUERY_STRING']); //quedarà un array [day=Fri, hour=8:00, subject=PBE]
 $params = parse_query($query);  //Array ( [day] => FRi, [hour] => 8:00, [subject] => PBE )
 
-$consulta = "SELECT * FROM '$table'";
+$consulta = "SELECT * FROM '$table'";  
 $primeraCondicio = true;
 foreach($params as $key => $value){
     if(isset($key)){
-        $consulta .= ($primeraCondicio ? " WHERE" : " AND")
-        $primeraCondicio = false;
+        $consulta .= ($primeraCondicio ? " WHERE" : " AND")  //tria WHERE si &primeraciondició=True
+        $primeraCondicio = false;  
         
         $consulta .=" '$key' = '$value'";
     }
