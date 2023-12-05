@@ -1,7 +1,7 @@
 <?php
 include("db.php"); //include aplica el codi de l'arxiu que dius, aquest obre la db
 
-//https://localhost:8080/CriticalDesignPBE/back/index.php/timetables?day=FRi&hour=8:00&subect=PBE 
+//https://localhost:8080/CriticalDesignPBE/back/index.php/timetables?day=FRi&hour=8:00&subject=PBE 
 
 function parse_query($query){   //fa una llista key-value separant per =
     foreach($query as $val){
