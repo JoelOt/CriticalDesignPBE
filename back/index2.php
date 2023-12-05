@@ -14,7 +14,7 @@ $table = ltrim($_SERVER['PATH_INFO'], '/'); //s'ha de treure el '/' devant de la
 $query = explode('&', $_SERVER['QUERY_STRING']); //quedarà un array [day=Fri, hour=8:00, subject=PBE]
 $params = parse_query($query);  //Array ( [day] => FRi, [hour] => 8:00, [subject] => PBE )
 
-$consulta = "SELECT * FROM '$table'";  
+$consulta = "SELECT * FROM $table";  
 $primeraCondicio = true;
 foreach($params as $key => $value){
     if(isset($key)){
