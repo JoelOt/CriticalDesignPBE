@@ -10,7 +10,7 @@ function parse_query($query){   //fa una llista key-value separant per =
     }
     return $params;
 }
-$table = $_SERVER['PATH_INFO'];
+$table = ltrim($_SERVER['PATH_INFO'], '/'); //s'ha de treure el '/' devant de la taula
 $query = explode('&', $_SERVER['QUERY_STRING']); //quedarà un array [day=Fri, hour=8:00, subject=PBE]
 $params = parse_query($query);  //Array ( [day] => FRi, [hour] => 8:00, [subject] => PBE )
 
@@ -21,7 +21,7 @@ foreach($params as $key => $value){
         $consulta .= ($primeraCondicio ? " WHERE" : " AND")  //tria WHERE si &primeraciondició=True
         $primeraCondicio = false;  
         
-        $consulta .=" '$key' = '$value'";
+        $consulta .=" $key = '$value'";
     }
 }
 
