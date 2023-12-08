@@ -11,17 +11,19 @@ function parse_query($query){   //fa una llista key-value separant per =
     return $params;
 }
 $table = ltrim($_SERVER['PATH_INFO'], '/'); //s'ha de treure el '/' devant de la taula
-$query = explode('&', $_SERVER['QUERY_STRING']); //quedarà un array [day=Fri, hour=8:00, subject=PBE]
-$params = parse_query($query);  //Array ( [day] => FRi, [hour] => 8:00, [subject] => PBE )
-
 $consulta = "SELECT * FROM {$table}";  
-$primeraCondicio = true;
-foreach($params as $key => $value){
-    if(isset($key)){
-        $consulta .= ($primeraCondicio ? " WHERE" : " AND")  //tria WHERE si &primeraciondició=True
-        $primeraCondicio = false;  
-        
-        $consulta .=" $key = '$value'";
+if($_SERVER['QUERY_STRING']!= NULL){
+    $query = explode('&', $_SERVER['QUERY_STRING']); //quedarà un array [day=Fri, hour=8:00, subject=PBE]
+    
+    $params = parse_query($query);  //Array ( [day] => FRi, [hour] => 8:00, [subject] => PBE )
+    $primeraCondicio = true;
+    foreach($params as $key => $value){
+        if(isset($key)){
+            $consulta .= ($primeraCondicio ? " WHERE" : " AND");  //tria WHERE si &primeraciondició=True
+            $primeraCondicio = false;  
+            
+            $consulta .=" $key = '$value'";
+        }
     }
 }
 
@@ -33,4 +35,3 @@ while($row = mysqli_fetch_assoc($result)){  //anem recollint els arrays de les d
 header('Content-Type: application/json');  //indiquem a la capçalera que les dades son en foramt json
 echo json_encode($data);    //les enviem al client codificades en aquest format
 ?>
-
