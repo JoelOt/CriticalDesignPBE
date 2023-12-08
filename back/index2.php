@@ -25,14 +25,16 @@ if($_SERVER['QUERY_STRING']!= NULL){
             $keyParts = explode('[', $key);     //en aquesta secció de codi es on posem les codicións lt and gt
             if (isset($keyParts[1])) {
                 $cond = trim($keyParts[1],']');
-                $key0 = $keyParts[0];
                 if($cond =='gt'){
-                    $consulta .=" $key0 > '$value'";
+                    $simb ='>';
                 }else if ($cond =='lt'){
-                    $consulta .=" $key0 < '$value'";
+                    $simb ='<';
                 }                               //si volem posar mes condicionants només hem d'afegir else if
             }else{
-                $consulta .=" $key = '$value'";
+                $simb ='=';
+            }
+            $key = $keyParts[0];
+            $consulta .=" $key $simb '$value'";
 
             }
         }
