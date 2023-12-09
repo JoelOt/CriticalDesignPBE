@@ -122,8 +122,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`uid`, `userName`) VALUES
-('D1FDE202', 'Joel Otero'),
-('938B506', 'Ariadna Marcos');
+('D1FDE202', 'Joel_Otero'),
+('938B506', 'Ariadna_Marcos');
 
 -- --------------------------------------------------------
 
