@@ -37,7 +37,7 @@ if($_SERVER['QUERY_STRING']!= NULL){
             }
             $key = $keyParts[0];
             if($key=="date" && $value = "now"){
-                    $consulta .= " WHERE date = CURRENT_DATE";
+                    $value = "CURRENT_DATE";
             }
             $consulta .=" $key $simb '$value'";
 
