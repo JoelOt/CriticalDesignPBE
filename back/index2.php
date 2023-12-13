@@ -19,34 +19,36 @@ if($_SERVER['QUERY_STRING']!= NULL){
     $primeraCondicio = true;
     foreach($params as $key => $value){
         if(isset($key)){
-            $consulta .= ($primeraCondicio ? " WHERE" : " AND");  //tria WHERE si &primeraciondició=True
-            $primeraCondicio = false;  
+            if($key !="limit"){
+                $consulta .= ($primeraCondicio ? " WHERE" : " AND");  //tria WHERE si &primeraciondició=True
+                $primeraCondicio = false;  
  
-            $keyParts = explode('[', $key);     //en aquesta secció de codi es on posem les codicións lt and gt
-            $simb ='=';
-            if (isset($keyParts[1])) {
-                $cond = trim($keyParts[1],']');
-                if($cond =='gt'){
-                    $simb ='>';
-                }else if ($cond =='lt'){
-                    $simb ='<';
-                }else if ($cond =='gte'){
-                    $simb = '>=';
-                }else if ($cond =='lte'){
-                    $simb = '<=';
+                $keyParts = explode('[', $key);     //en aquesta secció de codi es on posem les codicións lt and gt
+                $simb ='=';
+                if (isset($keyParts[1])) {
+                    $cond = trim($keyParts[1],']');
+                    if($cond =='gt'){
+                        $simb ='>';
+                    }else if ($cond =='lt'){
+                        $simb ='<';
+                    }else if ($cond =='gte'){
+                        $simb = '>=';
+                    }else if ($cond =='lte'){
+                        $simb = '<=';
+                    }
+                    //si volem posar mes condicionants només hem d'afegir else if
                 }
-                //si volem posar mes condicionants només hem d'afegir else if
-            }
-            $key = $keyParts[0];
-            if($key=="date" && $value = "now"){
+                $key = $keyParts[0];
+                if($key=="date" && $value = "now"){
                     $value = "CURRENT_DATE";
-            }
-            $consulta .=" $key $simb '$value'";
-
+                }
+                $consulta .=" $key $simb '$value'";
+            }else if($key =="limit"){
+                $consulta .= " LIMIT $value";
             }
         }
     }
-
+}
 
 
 $result = mysqli_query($conn, $consulta);  //executa la consulta $consulta a la db $conn
