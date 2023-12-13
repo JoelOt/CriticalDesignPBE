@@ -11,13 +11,13 @@ function parse_query($query){   //fa una llista key-value separant per =
     return $params;
 }
 $table = ltrim($_SERVER['PATH_INFO'], '/'); //s'ha de treure el '/' devant de la taula
-$consulta = "SELECT * FROM {$table}";  
+$consulta = "SELECT * FROM {$table}";
+$limit = NULL;
 if($_SERVER['QUERY_STRING']!= NULL){
     $query = explode('&', $_SERVER['QUERY_STRING']); //quedarà un array [day=Fri, hour=8:00, subject=PBE]
 
     $params = parse_query($query);  //Array ( [day] => FRi, [hour] => 8:00, [subject] => PBE )
     $primeraCondicio = true;
-    $limit = NULL;
     foreach($params as $key => $value){
         if(isset($key)){
             if($key !="limit"){
@@ -59,6 +59,11 @@ if ($table == 'timetables'){
     $consulta .=" ORDER BY mark ASC";
 }
 //afegir orders si es necesari
+if ($limit != NULL){
+    $consulta .=" LIMIT $limit";
+
+}
+
 
 $result = mysqli_query($conn, $consulta);  //executa la consulta $consulta a la db $conn
 $data= array(); //l'inicialitzem com un array buit
