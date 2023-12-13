@@ -56,12 +56,13 @@ if ($table == 'timetables'){
 }else if($table == 'tasks'){
     $consulta .=" ORDER BY date ASC";
 }else if ($table == 'marks'){
-    $consulta .=" ORDER BY mark ASC";
+    //$consulta .=" ORDER BY mark ASC";
 }
-//afegir orders si es necesari
+//afegir ordres si es necesari
+
+
 if ($limit != NULL){
     $consulta .=" LIMIT $limit";
-
 }
 
 
