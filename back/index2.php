@@ -1,7 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');  //es per poder accedir desde qualsevol client
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 include("db.php"); //include aplica el codi de l'arxiu que dius, aquest obre la db
 
 //https://localhost:8080/CriticalDesignPBE/back/index.php/timetables?day=FRi&hour=8:00&subject=PBE 
@@ -33,7 +30,12 @@ if($_SERVER['QUERY_STRING']!= NULL){
                     $simb ='>';
                 }else if ($cond =='lt'){
                     $simb ='<';
-                }                           //si volem posar mes condicionants només hem d'afegir else if
+                }else if ($cond =='gte'){
+                    $simb = '>=';
+                }else if ($cond =='lte'){
+                    $simb = '<=';
+                }
+                //si volem posar mes condicionants només hem d'afegir else if
             }
             $key = $keyParts[0];
             if($key=="date" && $value = "now"){
@@ -44,6 +46,8 @@ if($_SERVER['QUERY_STRING']!= NULL){
             }
         }
     }
+
+
 
 $result = mysqli_query($conn, $consulta);  //executa la consulta $consulta a la db $conn
 $data= array(); //l'inicialitzem com un array buit
