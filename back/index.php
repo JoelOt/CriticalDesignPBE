@@ -17,6 +17,7 @@ if($_SERVER['QUERY_STRING']!= NULL){
 
     $params = parse_query($query);  //Array ( [day] => FRi, [hour] => 8:00, [subject] => PBE )
     $primeraCondicio = true;
+    $limit = NULL;
     foreach($params as $key => $value){
         if(isset($key)){
             if($key !="limit"){
@@ -43,13 +44,21 @@ if($_SERVER['QUERY_STRING']!= NULL){
                     $value = "CURRENT_DATE";
                 }
                 $consulta .=" $key $simb '$value'";
+
             }else if($key =="limit"){
-                $consulta .= " LIMIT $value";
+                $limit=$value;
             }
         }
     }
 }
-
+if ($table == 'timetables'){
+    $consulta .=" ORDER BY FIELD(day, 'Mon', 'Tue', 'Wen', 'Thu', 'Fri'),hour ASC";
+}else if($table == 'tasks'){
+    $consulta .=" ORDER BY date ASC";
+}else if ($table == 'marks'){
+    $consulta .=" ORDER BY mark ASC";
+}
+//afegir orders si es necesari
 
 $result = mysqli_query($conn, $consulta);  //executa la consulta $consulta a la db $conn
 $data= array(); //l'inicialitzem com un array buit
