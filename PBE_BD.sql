@@ -31,14 +31,14 @@ CREATE TABLE `marks` (
   `subject` varchar(15) NOT NULL,
   `name` varchar(15) NOT NULL,
   `mark` float NOT NULL,
-  `id` varchar(10) NOT NULL
+  `uid` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `marks`
 --
 
-INSERT INTO `marks` (`subject`, `name`, `mark`, `id`) VALUES
+INSERT INTO `marks` (`subject`, `name`, `mark`, `uid`) VALUES
 ('AST ', 'Lab1', 4, '938B506'),
 ('AST', 'Lab2 ', 5, '938B506'),
 ('ICOM ', 'Practica1', 8, '938B506'),
