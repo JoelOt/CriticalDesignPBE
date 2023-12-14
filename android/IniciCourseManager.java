@@ -1,4 +1,4 @@
-package com.example.cdrr;
+package com.example.cdr;
 
 import android.os.Bundle;
 import android.view.View;
