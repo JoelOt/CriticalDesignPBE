@@ -51,14 +51,34 @@ if($_SERVER['QUERY_STRING']!= NULL){
         }
     }
 }
-if ($table == 'timetables'){
-    $consulta .=" ORDER BY FIELD(day, 'Mon', 'Tue', 'Wen', 'Thu', 'Fri'),hour ASC";
+
+// codi per ordenar timetables segons l'hora actual
+
+$dia = date('N');
+$hora_actual = date('H:i:s');
+$days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+$days_inorder = array_merge(
+    array_slice($days, $dia), 
+    array_slice($days, 0, $dia)  
+);
+$hora_str = strval($hora_actual);
+$order_clause = implode(',', array_map(function ($day) {
+    return "'$day'";
+}, $days_inorder));
+
+if ($table == 'timetables') {
+	if(($dia >= 1) && ($dia <= 5)){	//si es entre setmana
+		$dia = (date('N') + 1)%7;	//per aquesta solucio primer s'agafa el dia actual i les hores de despres de la actual i 
+						//despres ordenem cronologicament com si fos el dia seguent a l'actual
+		$consulta .= " ORDER BY CASE WHEN (day = '$days[$dia]' && hour > '$hora_str') THEN 0 ELSE 1 END, FIELD(day, $order_clause), hour";
+	}else{ // si es cap de setmana simplement donem l'horari normal
+		$consulta .= " ORDER BY FIELD(day, $order_clause), hour";
+	}
 }else if($table == 'tasks'){
     $consulta .=" ORDER BY date ASC";
 }else if ($table == 'marks'){
-    //$consulta .=" ORDER BY mark ASC";
+    $consulta .=" ORDER BY subject ASC";
 }
-//afegir ordres si es necesari
 
 
 if ($limit != NULL){
