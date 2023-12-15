@@ -42,8 +42,7 @@ public class IniciCourseManager extends AppCompatActivity {
                 username = (TextView) findViewById(R.id.usernameText);
                 uid = (TextView) findViewById(R.id.uidPasswordText);
                 text = (TextView) findViewById(R.id.WelcomeText);
-                //String url = path + "/students?uid=" + uid + "&userName=" + username;
-                String url = "http://localhost/index.php/students?uid=938B506&userName=Ariadna_Marcos";
+                String url = path + "/students?uid=" + uid + "&userName=" + username;
                 get(url);
             }
         });
@@ -57,7 +56,6 @@ public class IniciCourseManager extends AppCompatActivity {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
             }
-
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()){
@@ -70,13 +68,10 @@ public class IniciCourseManager extends AppCompatActivity {
                             // Access individual fields
                             String uid = jsonObject.getString("uid");
                             String userName = jsonObject.getString("userName");
-                            String a = "UID: " + uid + ", UserName: " + userName;
-                            text.setText(a);
                         }
                     }catch(JSONException e){
                         e.printStackTrace();
                     }
-
                 }
             }
         });
