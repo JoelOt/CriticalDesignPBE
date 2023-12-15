@@ -26,23 +26,24 @@ if($_SERVER['QUERY_STRING']!= NULL){
             $primeraCondicio = false;  
  
             $keyParts = explode('[', $key);     //en aquesta secció de codi es on posem les codicións lt and gt
+            $simb ='=';
             if (isset($keyParts[1])) {
                 $cond = trim($keyParts[1],']');
                 if($cond =='gt'){
                     $simb ='>';
                 }else if ($cond =='lt'){
                     $simb ='<';
-                }                               //si volem posar mes condicionants només hem d'afegir else if
-            }else{
-                $simb ='=';
+                }                           //si volem posar mes condicionants només hem d'afegir else if
             }
             $key = $keyParts[0];
+            if($key=="date" && $value = "now"){
+                    $consulta .= " WHERE date = CURRENT_DATE";
+            }
             $consulta .=" $key $simb '$value'";
 
             }
         }
     }
-}
 
 $result = mysqli_query($conn, $consulta);  //executa la consulta $consulta a la db $conn
 $data= array(); //l'inicialitzem com un array buit
