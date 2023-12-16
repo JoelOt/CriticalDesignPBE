@@ -18,6 +18,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -29,9 +31,11 @@ public class CourseManager extends AppCompatActivity {
     private Button login;
     private Button logout;
     private Button send;
-    private TextView path;
     private TableLayout tableLayout;
     private boolean is_inici;
+    private String userName;
+    private String pathText = "";
+
     OkHttpClient client = new OkHttpClient();
 
 
@@ -39,7 +43,6 @@ public class CourseManager extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         inici();
-        //taules("");
     }
     private void inici(){
         is_inici = true;
@@ -48,27 +51,27 @@ public class CourseManager extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                path = (TextView) findViewById(R.id.pathText);
+                TextView path = (TextView) findViewById(R.id.pathText);
+                pathText = path.getText().toString();
                 TextView username = (TextView) findViewById(R.id.usernameText);
                 TextView uid = (TextView) findViewById(R.id.uidText);
-                String url = path.getText() + "/index.php/students?uid=" + uid.getText() + "&userName=" + username.getText();
-                if(path.getText() != null ){
-                    get(url);
-                }
+                String url = pathText + "/students?userName=" + username.getText() + "&uid=" + uid.getText();
+                //url = "http://10.0.2.2/index.php/students?userName=Ariadna_Marcos&uid=938B506";
+                get(url);
             }
         });
     }
-    private void taules(String username){
+    private void taules(){
         is_inici = false;
         setContentView(R.layout.taules);
         TextView welcomeText = (TextView) findViewById(R.id.welcomeText);
-        welcomeText.setText("Welcome "+ username);
+        welcomeText.setText("Welcome "+ userName);
         tableLayout = findViewById(R.id.taula);
         logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.inici);
+                inici();
             }
         });
         send = (Button) findViewById(R.id.send);
@@ -76,31 +79,49 @@ public class CourseManager extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView consulta = (TextView) findViewById(R.id.consultaText);
-                String url = path.getText()+ "/" + consulta.getText();
+                String url = pathText + "/" + consulta.getText();
                 get(url);
             }
         });
     }
 
     public void get(String url){
-        Request request = new Request.Builder().url(url).build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                e.printStackTrace();
-            }
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()){
-                        String responseBody = response.body().string();
-                        if(is_inici){
-                            updatelog(responseBody);
-                        }else{
-                            updatetaula(responseBody);
-                        }
+        if (!pathText.isEmpty()){
+            Request request = new Request.Builder().url(url).build();
+            Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    e.printStackTrace();
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    try {
+                        if (response.isSuccessful()) {
+                            String responseBody = response.body().string();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    if (is_inici) {
+                                        updatelog(responseBody);
+                                    } else {
+                                        updatetaula(responseBody);
+                                    }
+                                }
+                            });
+                        }
+                    } finally {
+                        // Close the response body
+                        if (response.body() != null) {
+                            response.body().close();
+                        }
+                    }
+
+                }
+            });
+        }
     }
 
     public void updatetaula(String responseBody){
@@ -166,11 +187,12 @@ public class CourseManager extends AppCompatActivity {
 
     public void updatelog(String responseBody){
         try {
+            TextView a = (TextView) findViewById(R.id.courseManagerText);
             if (!responseBody.isEmpty()) {
-                // Parse the single JSON object
-                JSONObject jsonObject = new JSONObject(responseBody);
-                String userName = jsonObject.getString("userName");
-                taules(userName);
+                JSONArray jsonArray = new JSONArray(responseBody);
+                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                userName = jsonObject.getString("userName");
+                taules();
             }
         }catch(JSONException e){
             e.printStackTrace();
