@@ -51,9 +51,8 @@ public class CourseManager extends AppCompatActivity {
                 path = (TextView) findViewById(R.id.pathText);
                 TextView username = (TextView) findViewById(R.id.usernameText);
                 TextView uid = (TextView) findViewById(R.id.uidText);
-                String url = "http://10.0.2.2/index.php/students?uid=938B506&userName=Ariadna_Marcos";
-                //url = path.getText() + "/index.php/students?uid=" + uid.getText() + "&userName=" + username.getText();
-                if(path != null ){
+                String url = path.getText() + "/index.php/students?uid=" + uid.getText() + "&userName=" + username.getText();
+                if(path.getText() != null ){
                     get(url);
                 }
             }
