@@ -38,8 +38,8 @@ public class CourseManager extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //inici();
-        taules("");
+        inici();
+        //taules("");
     }
     private void inici(){
         is_inici = true;
