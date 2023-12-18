@@ -1,4 +1,4 @@
-.login{
+.loginPage{
     position: absolute;
     top: 50%;
     left: 50%;  
@@ -38,8 +38,10 @@
 .mainPage {
     position: absolute;
     top: 50%;
-    left: 50%;  
+    left: 50%;
     transform: translate(-50%, -50%);
+    width: 800px; /* Puedes ajustar este valor según tus necesidades */
+    height: 800px; /* Cambiado a auto para ajustarse al contenido */
     background-color: #dae26c;
     border-radius: 10px;
     border: 3px solid #000000;
@@ -49,19 +51,52 @@
     font-size: 150%;
 }
 .logout {
-    right: 90%;
+    position: absolute;
+    top: 10px; /* Ajusta la posición vertical según tus necesidades */
+    right: 10px; /* Ajusta el espacio desde el borde derecho según tus necesidades */
     padding: 10px 30px;
     border: none;
     border-radius: 5px;
 }
 .consulta {
     border-radius: 7px;
-    padding-right: 100px;
+    padding-right: 500px;
+}
+.send{
+    position: absolute;
+    right: 10px; /* Ajusta el espacio desde el borde derecho según tus necesidades */
+    padding: 10px 30px;
+    padding: 10px 30px;
+    background-color: #2232c4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
 }
 .tabla {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    width: 80%;
+    margin: 0 auto; /* Centra la tabla en el contenedor */
     background-color: #288ae6;
     color: #000000;
 }
+.tabla th, .tabla td {
+    background-color: #4CAF50; /* Cambia el color de fondo de las celdas */
+    color: white; /* Cambia el color del texto en las celdas */
+    padding: 1px 5px; /* Ajusta el espacio interno de las celdas */
+    text-align: center; /* Ajusta la alineación del texto en las celdas */
+}
+.tabla th {
+    background-color: #006eff;
+}
+.tabla td{
+    background-color: #00aeffaf;
+}
+.tabla caption{
+    color: rgb(233, 52, 20);
+    font-size: 150%;
+    padding: 10px;
+}
+
