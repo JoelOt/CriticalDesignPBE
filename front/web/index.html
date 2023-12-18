@@ -6,26 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplicación Web</title>
     <script src="main.js"></script> <!-- Script js per la llògica -->
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-    <div id="loginPage"> <!-- Pag de Login -->
-        <h2>Welcome to Course Manager</h2>
+    <div class="loginPage" id="loginPage"> <!-- Pag de Login -->
+        <h2 class="title">Welcome to Course Manager</h2>
         <form id="loginForm">
-            <label for="userName">username:</label>
+            <label class="label" for="userName">username:</label>
             <input type="text" id="userName" name="userName" autocomplete="username" required>
-            <label for="password">password:</label>
+            <br>
+            <label class="label" for="password">password:</label>
             <input type="password" id="password" name="password" autocomplete="current-password" required>
-            <button type="button" onclick="login()">Login</button>
+            <br>
+            <button class="button" type="button" onclick="login()">Login</button>
         </form>
     </div>
-    <div id="mainPage" style="display: none;"> <!-- Pag Principal -->
-        <h2>Bienvenido, <span id="usernameDisplay"></span>!</h2>
+    <div class="mainPage" id="mainPage" style="display: none;"> <!-- Pag Principal -->
+        <h2 class="usernameDisplay">Bienvenido, <span id="usernameDisplay"></span></h2>
         <form id="requestForm">
-            <button type="button" id="logoutButton" onclick="logout()">Logout</button>
-            <input type="text" id="consulta" name="consulta" required>
-            <button type="button" onclick="request()">Send</button>
-            <table border="1">
+            <button class="logout" type="button" id="logoutButton" onclick="logout()">Logout</button>
+            <br>
+            <input class="consulta" ="text" id="consulta" name="consulta" required>
+            <button class="send" type="button" onclick="request()">Send</button>
+            <table class="tabla" id="tabla" border="1" style="display: none;">
                 <thead id="tablaHead"> <!-- Encabezado de la tabla -->
                     <!-- Afegirem dinàmicament les capçaleres-->
                 </thead>
