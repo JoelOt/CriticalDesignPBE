@@ -1,4 +1,7 @@
 <?php
+header('Access-Control-Allow-Origin: *');  //es per poder accedir desde qualsevol client
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 include("db.php"); //include aplica el codi de l'arxiu que dius, aquest obre la db
 
 //https://localhost:8080/CriticalDesignPBE/back/index.php/timetables?day=FRi&hour=8:00&subject=PBE 
